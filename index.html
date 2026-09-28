@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeReady</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-icon">🛡️</div>
+    <div>
+      <h1>SafeReady</h1>
+      <span>Emergency preparedness made interactive</span>
+    </div>
+  </div>
+
+  <nav class="main-nav">
+    <button class="nav-btn active" data-screen="dashboard">Dashboard</button>
+    <button class="nav-btn" data-screen="guides">Guides</button>
+    <button class="nav-btn" data-screen="quiz">Quiz</button>
+    <button class="nav-btn" data-screen="kit">Emergency Kit</button>
+    <button class="nav-btn" data-screen="games">Games</button>
+  </nav>
+
+  <div class="header-actions">
+    <div class="xp-display">
+      <span>⭐</span>
+      <div>
+        <small>XP</small>
+        <strong id="xpValue">0</strong>
+      </div>
+    </div>
+
+    <button id="themeButton" class="icon-button">🌙</button>
+  </div>
+</header>
+
+
+<main>
+
+  <!-- =========================
+       DASHBOARD
+  ========================== -->
+  <section id="dashboard" class="screen active">
+
+    <div class="hero">
+      <div>
+        <span class="eyebrow">READY FOR ANYTHING</span>
+
+        <h2>Build your emergency readiness.</h2>
+
+        <p>
+          Learn what to do, test your knowledge, prepare your emergency kit,
+          and practise through interactive games.
+        </p>
+
+        <div class="hero-actions">
+          <button class="primary-btn" data-screen="quiz">
+            Start Quiz
+          </button>
+
+          <button class="secondary-btn" data-screen="games">
+            Play Games
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-visual">🧰</div>
+    </div>
+
+
+    <div class="stat-grid">
+
+      <div class="stat-card">
+        <span>⭐</span>
+        <div>
+          <small>Experience</small>
+          <strong id="dashboardXp">0 XP</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <span>🔥</span>
+        <div>
+          <small>Quiz streak</small>
+          <strong id="streakValue">0</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <span>🏆</span>
+        <div>
+          <small>Best score</small>
+          <strong id="bestScoreValue">0%</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <span>🎮</span>
+        <div>
+          <small>Games completed</small>
+          <strong id="gamesValue">0</strong>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section-heading">
+      <span class="eyebrow">LEARN</span>
+      <h3>Emergency topics</h3>
+    </div>
+
+    <div id="topicCards" class="topic-grid"></div>
+
+  </section>
+
+
+  <!-- =========================
+       GUIDES
+  ========================== -->
+  <section id="guides" class="screen">
+
+    <div class="page-heading">
+      <span class="eyebrow">KNOW WHAT TO DO</span>
+      <h2>Emergency Guides</h2>
+      <p>
+        Detailed, practical guidance for common emergencies.
+      </p>
+    </div>
+
+    <div id="guideGrid" class="guide-grid"></div>
+
+  </section>
+
+
+  <!-- =========================
+       QUIZ
+  ========================== -->
+  <section id="quiz" class="screen">
+
+    <div id="quizSetup" class="quiz-setup">
+
+      <div class="page-heading">
+        <span class="eyebrow">TEST YOUR KNOWLEDGE</span>
+        <h2>Emergency Quiz</h2>
+        <p>Choose a topic and difficulty.</p>
+      </div>
+
+      <div class="setup-panel">
+
+        <div class="setup-group">
+          <label>Topic</label>
+          <div id="topicChoices" class="choice-grid"></div>
+        </div>
+
+        <div class="setup-group">
+
+          <label>Difficulty</label>
+
+          <div id="difficultyChoices" class="difficulty-grid">
+
+            <button
+              type="button"
+              class="difficulty-btn selected"
+              data-difficulty="easy"
+            >
+              <strong>Easy</strong>
+              <span>Fundamentals</span>
+            </button>
+
+            <button
+              type="button"
+              class="difficulty-btn"
+              data-difficulty="medium"
+            >
+              <strong>Medium</strong>
+              <span>Applied knowledge</span>
+            </button>
+
+            <button
+              type="button"
+              class="difficulty-btn"
+              data-difficulty="hard"
+            >
+              <strong>Hard</strong>
+              <span>Challenging situations</span>
+            </button>
+
+          </div>
+
+        </div>
+
+        <button
+          id="startQuizButton"
+          class="primary-btn large-btn"
+        >
+          Start Quiz
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div id="quizScreen" class="quiz-screen hidden">
+
+      <div class="quiz-top">
+
+        <div>
+          <span id="quizTopicLabel" class="eyebrow"></span>
+          <h2 id="questionNumber"></h2>
+        </div>
+
+        <div class="quiz-score">
+          Score:
+          <strong id="quizScore">0</strong>
+        </div>
+
+      </div>
+
+
+      <div class="progress-track">
+        <div id="quizProgress" class="progress-fill"></div>
+      </div>
+
+
+      <div class="question-card">
+
+        <span id="questionDifficulty" class="badge"></span>
+
+        <h3 id="questionText"></h3>
+
+        <div id="answerChoices" class="answer-grid"></div>
+
+        <div class="quiz-tools">
+          <button id="hintButton" class="tool-btn">
+            💡 Hint
+          </button>
+
+          <button id="skipButton" class="tool-btn">
+            ⏭ Skip
+          </button>
+        </div>
+
+        <div
+          id="quizFeedback"
+          class="feedback hidden"
+        ></div>
+
+      </div>
+
+      <button
+        id="nextQuestionButton"
+        class="primary-btn hidden"
+      >
+        Next Question
+      </button>
+
+    </div>
+
+
+    <div id="quizResult" class="result-card hidden">
+
+      <div class="result-icon">🏆</div>
+
+      <h2>Quiz Complete</h2>
+
+      <div id="resultScore" class="big-result">
+        0%
+      </div>
+
+      <p id="resultMessage"></p>
+
+      <button
+        id="retryQuizButton"
+        class="primary-btn"
+      >
+        Try Again
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       EMERGENCY KIT
+  ========================== -->
+  <section id="kit" class="screen">
+
+    <div class="page-heading">
+      <span class="eyebrow">
+        PREPARE BEFORE YOU NEED IT
+      </span>
+
+      <h2>Emergency Kit</h2>
+
+      <p>
+        Build a practical emergency kit and track what you have ready.
+      </p>
+    </div>
+
+
+    <!-- Existing checklist -->
+    <div class="kit-summary">
+
+      <div>
+        <strong id="kitProgressText">0%</strong>
+        <span>prepared</span>
+      </div>
+
+      <div class="progress-track">
+        <div
+          id="kitProgress"
+          class="progress-fill"
+        ></div>
+      </div>
+
+    </div>
+
+
+    <div id="kitGrid" class="kit-grid"></div>
+
+
+    <!-- ==================================
+         EMERGENCY KIT CHALLENGE
+    =================================== -->
+    <div class="kit-challenge">
+
+      <div class="game-panel-header">
+
+        <div>
+
+          <span class="eyebrow">
+            30 SECOND CHALLENGE
+          </span>
+
+          <h3>
+            Emergency Kit Challenge
+          </h3>
+
+          <p>
+            Pack the correct emergency items into your backpack
+            before time runs out.
+          </p>
+
+        </div>
+
+        <div class="kit-challenge-timer">
+          <span>Time</span>
+          <strong id="kitChallengeTime">30</strong>
+        </div>
+
+      </div>
+
+
+      <!-- Challenge statistics -->
+
+      <div class="kit-challenge-stats">
+
+        <div>
+          <span>Score</span>
+          <strong id="kitChallengeScore">0</strong>
+        </div>
+
+        <div>
+          <span>Items packed</span>
+          <strong id="kitChallengePacked">
+            0 / 4
+          </strong>
+        </div>
+
+        <div>
+          <span>Status</span>
+          <strong id="kitChallengeStatus">
+            Ready
+          </strong>
+        </div>
+
+      </div>
+
+
+      <!-- Challenge area -->
+
+      <div id="kitChallengeArea" class="kit-challenge-layout hidden">
+
+        <!-- Items -->
+
+        <div>
+
+          <h4>
+            Emergency items
+          </h4>
+
+          <p class="challenge-instruction">
+            Drag an item into the backpack.
+            You can also tap an item on mobile.
+          </p>
+
+          <div
+            id="kitChallengeItems"
+            class="challenge-items"
+          ></div>
+
+        </div>
+
+
+        <!-- Backpack -->
+
+        <div
+          id="kitBackpack"
+          class="backpack-drop-zone"
+          tabindex="0"
+          aria-label="Emergency backpack"
+        >
+
+          <div class="backpack-icon">
+            🎒
+          </div>
+
+          <strong>
+            Emergency Backpack
+          </strong>
+
+          <span>
+            Drop useful items here
+          </span>
+
+          <div
+            id="kitBackpackContents"
+            class="packed-items"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Feedback -->
+
+      <div
+        id="kitChallengeFeedback"
+        class="feedback hidden"
+      ></div>
+
+
+      <!-- Controls -->
+
+      <div class="kit-challenge-actions">
+
+        <button
+          id="startKitChallengeButton"
+          class="primary-btn"
+        >
+          Start Challenge
+        </button>
+
+      </div>
+
+
+      <!-- Result -->
+
+      <div
+        id="kitChallengeResult"
+        class="game-result hidden"
+      >
+
+        <div class="result-icon">
+          🎒
+        </div>
+
+        <h3 id="kitChallengeResultTitle">
+          Challenge Complete
+        </h3>
+
+        <p id="kitChallengeResultText"></p>
+
+        <button
+          id="restartKitChallengeButton"
+          class="primary-btn"
+        >
+          Play Again
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       GAMES
+  ========================== -->
+  <section id="games" class="screen">
+
+    <div class="page-heading">
+
+      <span class="eyebrow">
+        PRACTISE UNDER PRESSURE
+      </span>
+
+      <h2>SafeReady Games</h2>
+
+      <p>
+        Six different games practise different emergency skills.
+      </p>
+
+    </div>
+
+
+    <div class="game-selector">
+
+      <button
+        class="game-tab active"
+        data-game="decision"
+      >
+        🧭 Decision Game
+      </button>
+
+      <button
+        class="game-tab"
+        data-game="memory"
+      >
+        🧠 Memory
+      </button>
+
+      <button
+        class="game-tab"
+        data-game="reaction"
+      >
+        ⚡ Reaction
+      </button>
+
+      <button
+        class="game-tab"
+        data-game="sort"
+      >
+        🧰 Emergency Sort
+      </button>
+
+      <button
+        class="game-tab"
+        data-game="escape"
+      >
+        🚪 Escape Route
+      </button>
+
+      <button
+        class="game-tab"
+        data-game="firstaid"
+      >
+        🩹 First-Aid Rush
+      </button>
+
+    </div>
+
+
+    <!-- Each of these panels is filled in by its matching js/game-*.js file -->
+    <div
+      id="game-decision"
+      class="game-panel active"
+    ></div>
+
+    <div
+      id="game-memory"
+      class="game-panel"
+    ></div>
+
+    <div
+      id="game-reaction"
+      class="game-panel"
+    ></div>
+
+    <div
+      id="game-sort"
+      class="game-panel"
+    ></div>
+
+    <div
+      id="game-escape"
+      class="game-panel"
+    ></div>
+
+    <div
+      id="game-firstaid"
+      class="game-panel"
+    ></div>
+
+  </section>
+
+</main>
+
+
+<!-- Guide modal -->
+
+<div
+  id="guideModal"
+  class="modal hidden"
+>
+
+  <div class="modal-content">
+
+    <button
+      id="closeModalButton"
+      class="modal-close"
+    >
+      ×
+    </button>
+
+    <div id="modalBody"></div>
+
+  </div>
+
+</div>
+
+
+<!--
+  Scripts are split into small, named modules and loaded in the order
+  they depend on each other:
+    1. helpers    – shared utility functions ($ , shuffle, clamp)
+    2. state      – app state + localStorage persistence + stat display
+    3. navigation – screen switching + theme toggle
+    4. guides     – guide content + dashboard/guide cards + modal
+    5. quiz       – question bank + quiz setup/flow
+    6. kit-*      – the static checklist, then the backpack mini-game
+    7. game-tabs  – switches between the six game panels
+    8. game-*     – one file per game, each builds its own panel content
+    9. main       – final catch-all init, run once everything exists
+-->
+<script src="js/helpers.js"></script>
+<script src="js/state.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/guides.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/kit-checklist.js"></script>
+<script src="js/kit-challenge.js"></script>
+<script src="js/game-tabs.js"></script>
+<script src="js/game-decision.js"></script>
+<script src="js/game-memory.js"></script>
+<script src="js/game-reaction.js"></script>
+<script src="js/game-sort.js"></script>
+<script src="js/game-escape.js"></script>
+<script src="js/game-firstaid.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

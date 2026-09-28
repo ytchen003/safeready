@@ -1,0 +1,8 @@
+*.jks
+*.keystore
+node_modules/
+.DS_Store
+.idea/
+**/.idea/
+**/build/
+android/app/release/
